@@ -1,16 +1,15 @@
-// @ts-check
 import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
   await page.goto('https://omayo.blogspot.com/');
 
-  await expect(page).toHaveTitle("omaya (QAFox.com)");
+  await expect(page).toHaveTitle("omayo (QAFox.com)");
 });
 
 
 test('navigate to another page', async ({ page }) => {
   await page.goto('https://omayo.blogspot.com/');
-  await expect(page).toHaveTitle("omaya (QAFox.com)");
+  await expect(page).toHaveTitle("omayo (QAFox.com)");
   await page.locator('#blogsmenu').hover();
   await page.locator("//span[text() = 'SeleniumByArun']").click();
   await expect(page).toHaveTitle('Selenium-By-Arun');
@@ -71,14 +70,26 @@ test("checking URL that we have entered in search box", async ({ page }) => {
   await expect(page).toHaveURL(new RegExp(query));
 });
 
-test("Print entire option in dropdown", async ({ page }) => {
+test("print entire option in dropdown", async ({ page }) => {
   await page.goto('https://omayo.blogspot.com/');
   await expect(page).toHaveTitle("omayo (QAFox.com)");
   const allOptions = await page.locator('//select[@id = "drop1"]//option').count();
-  for(let i = 1; i <= allOptions; i++){
+  for (let i = 1; i <= allOptions; i++) {
     const content = await page.locator(`//select[@id = "drop1"]//option[${i}]`)
     console.log('Option ' + 1 + content);
   }
   await page.locator('//select[@id = "drop1"]').click();
   await page.locator('//select[@id = "drop1"]//option[1]]')
-})
+});
+
+
+test('test page is navigated', async ({ page }) => {
+  await page.goto('https://omayo.blogspot.com/');
+  await expect(page).toHaveTitle("omayo (QAFox.com)");
+  await page.locator('select[class="L3Qlm PGEEnb s8lUn ToxeQe"]')
+    .selectOption({ label: 'Share with Facebook' });
+  await expect(page).toHaveURL(/facebook/);
+});
+
+
+
